@@ -1,0 +1,53 @@
+/* General table styling */
+table {
+    width: 100%; /* Full-width table */
+    border-collapse: collapse; /* Remove spacing between cells */
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    margin: 20px 0; /* Add space above and below */
+    background-color: #f9f9f9; /* Light background for contrast */
+    border: 1px solid #ddd; /* Subtle border */
+  }
+  
+  /* Table header styling */
+  thead {
+    background-color: #0A223D; /* Dark blue */
+    color: #fff; /* White text */
+  }
+  
+  th {
+    padding: 12px 15px; /* Add padding for better spacing */
+    text-align: left; /* Align text to the left */
+    border: 1px solid #ddd; /* Add borders */
+  }
+  
+  /* Table body styling */
+  td {
+    padding: 10px 15px; /* Add padding for better spacing */
+    border: 1px solid #ddd; /* Add subtle borders */
+    text-align: left; /* Align text to the left */
+    color: #333; /* Dark gray text */
+  }
+  
+  /* Zebra striping for rows */
+  tbody tr:nth-child(even) {
+    background-color: #f1f1f1; /* Light gray for alternating rows */
+  }
+  
+  /* Hover effect for rows */
+  tbody tr:hover {
+    background-color: #e0f7fa; /* Cyan highlight on hover */
+  }
+  
+  /* Center-align any N/A values for better readability */
+  td:contains("N/A") {
+    text-align: center;
+    font-style: italic;
+    color: #999;
+  }
+  
+  /* Add some spacing to the container around the table */
+  .table-container {
+    padding: 20px;
+  }
+  
