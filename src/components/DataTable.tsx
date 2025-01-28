@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { fetchFilteredRefreshReport } from "../services/apiServices";
-import "../css/table.css";
-import "../css/pagination.css";
+import "../styles/table.css";
+import "../styles/pagination.css";
 
 const DataTable: React.FC = () => {
   const [data, setData] = useState<any[]>([]);
@@ -33,14 +33,14 @@ const DataTable: React.FC = () => {
         const response = await fetchFilteredRefreshReport(currentPage, itemsPerPage, {
           premise: premiseFilter !== "All" ? premiseFilter : undefined,
           utilityType: utilityTypeFilter !== "All" ? utilityTypeFilter : undefined,
-          billCycle: billCycleFilter !== "All" ? billCycleFilter : undefined, 
+          billCycle: billCycleFilter !== "All" ? billCycleFilter : undefined,
           buildingMeterCount: meterCountFilter !== "All" ? meterCountFilter : undefined,
-          amr : amrFilter !== "All" ? amrFilter : undefined,
-          currentCout : currCountFilter !== "All" ? currCountFilter : undefined,
-          tenToThirty : tenToThirtyFilter !== "All" ? tenToThirtyFilter : undefined, 
-          thirtyToSixty : thirtyToSixtyFilter !== "All" ? thirtyToSixtyFilter : undefined, 
-          sixtyToNinty : sixtyToNintyFilter !== "All" ? sixtyToNintyFilter : undefined, 
-          nintyPlus : nintyPlusFilter !== "All" ? nintyPlusFilter : undefined
+          amr: amrFilter !== "All" ? amrFilter : undefined,
+          currentCout: currCountFilter !== "All" ? currCountFilter : undefined,
+          tenToThirty: tenToThirtyFilter !== "All" ? tenToThirtyFilter : undefined,
+          thirtyToSixty: thirtyToSixtyFilter !== "All" ? thirtyToSixtyFilter : undefined,
+          sixtyToNinty: sixtyToNintyFilter !== "All" ? sixtyToNintyFilter : undefined,
+          nintyPlus: nintyPlusFilter !== "All" ? nintyPlusFilter : undefined
         });
 
         console.log("Fetched Data:", response);
@@ -125,7 +125,7 @@ const DataTable: React.FC = () => {
             <th>
               AMR
               <br />
-              <select value={meterCountFilter} onChange={(e) => setAmrFilter(e.target.value)}>
+              <select value={amrFilter} onChange={(e) => setAmrFilter(e.target.value)}>
                 <option value="All">All</option>
                 {Array.from(new Set(data.map((row) => row.amr))).map((option) => (
                   <option key={option} value={option}>
@@ -139,7 +139,7 @@ const DataTable: React.FC = () => {
             <th>
               Current Count
               <br />
-              <select value={meterCountFilter} onChange={(e) => setCurrCountFilter(e.target.value)}>
+              <select value={currCountFilter} onChange={(e) => setCurrCountFilter(e.target.value)}>
                 <option value="All">All</option>
                 {Array.from(new Set(countFilterArray.map((row) => row))).map((option) => (
                   <option key={option} value={option}>
@@ -153,7 +153,7 @@ const DataTable: React.FC = () => {
             <th>
               10-30 Days
               <br />
-              <select value={meterCountFilter} onChange={(e) => setTenToThirtyFilter(e.target.value)}>
+              <select value={tenToThirtyFilter} onChange={(e) => setTenToThirtyFilter(e.target.value)}>
                 <option value="All">All</option>
                 {Array.from(new Set(countFilterArray.map((row) => row))).map((option) => (
                   <option key={option} value={option}>
@@ -167,7 +167,7 @@ const DataTable: React.FC = () => {
             <th>
               30-60 Days
               <br />
-              <select value={meterCountFilter} onChange={(e) => setThirtyToSixtyFilter(e.target.value)}>
+              <select value={thirtyToSixtyFilter} onChange={(e) => setThirtyToSixtyFilter(e.target.value)}>
                 <option value="All">All</option>
                 {Array.from(new Set(countFilterArray.map((row) => row))).map((option) => (
                   <option key={option} value={option}>
@@ -181,7 +181,7 @@ const DataTable: React.FC = () => {
             <th>
               60-90 Days
               <br />
-              <select value={meterCountFilter} onChange={(e) => setSixtyToNintyFilter(e.target.value)}>
+              <select value={sixtyToNintyFilter} onChange={(e) => setSixtyToNintyFilter(e.target.value)}>
                 <option value="All">All</option>
                 {Array.from(new Set(countFilterArray.map((row) => row))).map((option) => (
                   <option key={option} value={option}>
@@ -195,7 +195,7 @@ const DataTable: React.FC = () => {
             <th>
               90+ Days
               <br />
-              <select value={meterCountFilter} onChange={(e) => setNintyPlusFilter(e.target.value)}>
+              <select value={nintyPlusFilter} onChange={(e) => setNintyPlusFilter(e.target.value)}>
                 <option value="All">All</option>
                 {Array.from(new Set(countFilterArray.map((row) => row))).map((option) => (
                   <option key={option} value={option}>

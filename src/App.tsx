@@ -1,6 +1,6 @@
 import React from "react";
 import DataTable from "./components/DataTable"; // Import the new DataTable component
-import "./css/App.css"; // Import styles
+import "./styles/App.css"; // Import styles
 
 const App: React.FC = () => {
   return (

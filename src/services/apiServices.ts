@@ -20,7 +20,7 @@ export const fetchAdmReport = async (page: number, limit: number) => {
 //might be able to combine these two ()
 export const fetchFilteredRefreshReport = async (page: number, limit: number, filters: FilterParams) => {
   try {
-    const response = await axios.get(`${API_BASE_URL}/admFiltered`, {
+    const response = await axios.get(`${API_BASE_URL}/filteredReport`, {
       params: {page, limit},
     });
     console.log('response: ', response)
