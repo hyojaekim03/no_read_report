@@ -1,0 +1,9 @@
+/* src/css/App.css */
+.app-title {
+  font-family: "Montserrat", sans-serif;
+  font-size: 24px;
+  font-weight: 700;
+  color: #0A223D;
+  margin: 20px 0 10px; /* Match table's spacing for consistency */
+  text-align: left; /* Align text within the title */
+}

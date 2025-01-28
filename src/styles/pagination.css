@@ -20,7 +20,7 @@
   }
   
   .pagination-controls button:hover {
-    background-color: #17d4e2;
+    background-color: #0eb5c1;
   }
   
   .pagination-controls button:disabled {
@@ -30,7 +30,7 @@
   
   /* Highlight active page button */
   .pagination-controls .active {
-    background-color: #17d4e2;
+    background-color: #0eb5c1;
     font-weight: bold;
     cursor: default;
   }

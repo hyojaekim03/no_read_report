@@ -1,0 +1,17 @@
+/* src/css/global.css */
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f9f9f9;
+  }
+
+.container {
+    display: flex;
+    flex-direction: column; /* Stack the title and table vertically */
+    align-items: flex-start; /* Align items to the left */
+    width: 100%; /* Full width to match the table */
+    padding: 0 20px; /* Add consistent horizontal padding */
+}
+
