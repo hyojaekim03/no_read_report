@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { fetchFilteredRefreshReport } from "../services/apiServices";
+import { FilterParams } from "../types/filters";
+import { round } from "../utils/math";
 import "../styles/table.css";
 import "../styles/pagination.css";
 
@@ -18,35 +20,43 @@ const DataTable: React.FC = () => {
   const [meterCountFilter, setMeterCountFilter] = useState("All");
   const [amrFilter, setAmrFilter] = useState<string>("All");
   const [currCountFilter, setCurrCountFilter] = useState("All");
+  const [fourToTenFilter, setFourToTenFilter] = useState("All");
   const [tenToThirtyFilter, setTenToThirtyFilter] = useState("All");
   const [thirtyToSixtyFilter, setThirtyToSixtyFilter] = useState("All");
   const [sixtyToNintyFilter, setSixtyToNintyFilter] = useState("All");
   const [nintyPlusFilter, setNintyPlusFilter] = useState("All");
 
   const countFilterArray = ['<50', '50-100', '100-200', '200-300', '300-400', '400-500', '500+']
+  const percentFilterArray = ['<25%', '25-50%', '50-75%', '75-99%', '100%']
 
   // Fetch data from backend when filters or page change
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
       try {
-        const response = await fetchFilteredRefreshReport(currentPage, itemsPerPage, {
-          premise: premiseFilter !== "All" ? premiseFilter : undefined,
-          utilityType: utilityTypeFilter !== "All" ? utilityTypeFilter : undefined,
+        const filters: FilterParams = {
+          property: premiseFilter !== "All" ? premiseFilter : undefined,
+          utility: utilityTypeFilter !== "All" ? utilityTypeFilter : undefined,
           billCycle: billCycleFilter !== "All" ? billCycleFilter : undefined,
           buildingMeterCount: meterCountFilter !== "All" ? meterCountFilter : undefined,
           amr: amrFilter !== "All" ? amrFilter : undefined,
           currentCout: currCountFilter !== "All" ? currCountFilter : undefined,
-          tenToThirty: tenToThirtyFilter !== "All" ? tenToThirtyFilter : undefined,
-          thirtyToSixty: thirtyToSixtyFilter !== "All" ? thirtyToSixtyFilter : undefined,
-          sixtyToNinty: sixtyToNintyFilter !== "All" ? sixtyToNintyFilter : undefined,
-          nintyPlus: nintyPlusFilter !== "All" ? nintyPlusFilter : undefined
-        });
+          days4to10: fourToTenFilter !== "All" ? fourToTenFilter : undefined,
+          days10to30: tenToThirtyFilter !== "All" ? tenToThirtyFilter : undefined,
+          days30to60: thirtyToSixtyFilter !== "All" ? thirtyToSixtyFilter : undefined,
+          days60to90: sixtyToNintyFilter !== "All" ? sixtyToNintyFilter : undefined,
+          days90Plus: nintyPlusFilter !== "All" ? nintyPlusFilter : undefined
+        };
 
+        console.log('premise')
+        console.log('amr: ', filters.amr)
+        console.log('days4ot')
+
+        const response = await fetchFilteredRefreshReport(currentPage, itemsPerPage, filters);
         console.log("Fetched Data:", response);
-        const totalCount = response.totalCount[0][0].totalCount;
+
         setData(response.data);
-        setTotalPages(Math.ceil(totalCount / itemsPerPage));
+        setTotalPages(Math.ceil(response.totalCount[0][0].totalCount / itemsPerPage));
       } catch (error) {
         console.error("Error fetching data:", error);
       } finally {
@@ -55,7 +65,7 @@ const DataTable: React.FC = () => {
     };
 
     fetchData();
-  }, [currentPage, premiseFilter, utilityTypeFilter, billCycleFilter]); // 🔥 Triggers fetch when any of these change
+  }, [currentPage, premiseFilter, utilityTypeFilter, billCycleFilter, meterCountFilter, amrFilter, currCountFilter, fourToTenFilter, tenToThirtyFilter, thirtyToSixtyFilter, sixtyToNintyFilter, nintyPlusFilter]);
 
   if (loading) return <p>Loading...</p>;
 
@@ -66,12 +76,12 @@ const DataTable: React.FC = () => {
           <tr>
             {/*Premise Filter*/}
             <th>
-              Premise
+              Address
               <br />
               <select value={premiseFilter} onChange={(e) => setPremiseFilter(e.target.value)}>
                 <option value="All">All</option>
                 {/* Add dynamic options based on API data */}
-                {Array.from(new Set(data.map((row) => row.premise))).map((option) => (
+                {Array.from(new Set(data.map((row) => row.property))).map((option) => (
                   <option key={option} value={option}>
                     {option}
                   </option>
@@ -85,35 +95,7 @@ const DataTable: React.FC = () => {
               <br />
               <select value={utilityTypeFilter} onChange={(e) => setUtilityTypeFilter(e.target.value)}>
                 <option value="All">All</option>
-                {Array.from(new Set(data.map((row) => row.utilityType))).map((option) => (
-                  <option key={option} value={option}>
-                    {option}
-                  </option>
-                ))}
-              </select>
-            </th>
-
-            {/*Bill Cycle Filter*/}
-            <th>
-              Bill Cycle
-              <br />
-              <select value={billCycleFilter} onChange={(e) => setBillCycleFilter(e.target.value)}>
-                <option value="All">All</option>
-                {Array.from(new Set(data.map((row) => row.billCycle))).map((option) => (
-                  <option key={option} value={option}>
-                    {option}
-                  </option>
-                ))}
-              </select>
-            </th>
-
-            {/*Building Meter Count Filter*/}
-            <th>
-              Building Meter Count
-              <br />
-              <select value={meterCountFilter} onChange={(e) => setMeterCountFilter(e.target.value)}>
-                <option value="All">All</option>
-                {Array.from(new Set(countFilterArray.map((row) => row))).map((option) => (
+                {Array.from(new Set(data.map((row) => row.utility))).map((option) => (
                   <option key={option} value={option}>
                     {option}
                   </option>
@@ -135,11 +117,72 @@ const DataTable: React.FC = () => {
               </select>
             </th>
 
+            {/*Bill Cycle Filter*/}
+            <th>
+              Bill Cycle
+              <br />
+              <select value={billCycleFilter} onChange={(e) => setBillCycleFilter(e.target.value)}>
+                <option value="All">All</option>
+                {Array.from(new Set(data.map((row) => row.bill_cycle))).map((option) => (
+                  <option key={option} value={option}>
+                    {option}
+                  </option>
+                ))}
+              </select>
+            </th>
+
+            {/*Building Meter Count Filter*/}
+            <th>
+              Building Meter Count
+              <br />
+              <select value={meterCountFilter} onChange={(e) => setMeterCountFilter(e.target.value)}>
+                <option value="All">All</option>
+                {Array.from(new Set(countFilterArray.map((row) => row))).map((option) => (
+                  <option key={option} value={option}>
+                    {option}
+                  </option>
+                ))}
+              </select>
+            </th>
+
             {/*Current Count Filter*/}
             <th>
               Current Count
               <br />
               <select value={currCountFilter} onChange={(e) => setCurrCountFilter(e.target.value)}>
+                <option value="All">All</option>
+                {Array.from(new Set(countFilterArray.map((row) => row))).map((option) => (
+                  <option key={option} value={option}>
+                    {option}
+                  </option>
+                ))}
+              </select>
+            </th>
+
+            {/*4-10 days Filter*/}
+            <th>
+              Non-Comm %
+              <br />
+              <select value={fourToTenFilter} onChange={(e) => setFourToTenFilter(e.target.value)}>
+                <option value="All">All</option>
+                {Array.from(new Set(percentFilterArray.map((row) => row))).map((option) => (
+                  <option key={option} value={option}>
+                    {option}
+                  </option>
+                ))}
+              </select>
+            </th>
+
+            {/*MaxLastRead Filter*/}
+            <th>
+              MaxLastRead
+            </th>
+            
+              {/*4-10 days Filter*/}
+              <th>
+              4-10 Days
+              <br />
+              <select value={fourToTenFilter} onChange={(e) => setFourToTenFilter(e.target.value)}>
                 <option value="All">All</option>
                 {Array.from(new Set(countFilterArray.map((row) => row))).map((option) => (
                   <option key={option} value={option}>
@@ -208,20 +251,41 @@ const DataTable: React.FC = () => {
         </thead>
 
         <tbody>
-          {data.map((row, index) => (
-            <tr key={index}>
-              <td>{row.premise !== null ? row.premise : "N/A"}</td>
-              <td>{row.utilityType !== null ? row.utilityType : "N/A"}</td>
-              <td>{row.billCycle !== null ? row.billCycle : "N/A"}</td>
-              <td>{row.buildingMeterCount !== null ? row.buildingMeterCount : "N/A"}</td>
-              <td>{row.amr !== null ? row.amr : "N/A"}</td>
-              <td>{row.current !== null ? row.current : "N/A"}</td>
-              <td>{row.tenToThirtyCount !== null ? row.tenToThirtyCount : "N/A"}</td>
-              <td>{row.thirtyToSixtyCount !== null ? row.thirtyToSixtyCount : "N/A"}</td>
-              <td>{row.sixtyToNintyCount !== null ? row.sixtyToNintyCount : "N/A"}</td>
-              <td>{row.nintyPlusCount !== null ? row.nintyPlusCount : "N/A"}</td>
-            </tr>
-          ))}
+        {data.map((row, index) => {
+          // Calculate Non-Comm %
+            const nonCommPercentage = Math.round(((row.days_30_to_60 + row.days_60_to_90 + row.days_90_plus) * 100) / row.building_meter_count)
+
+
+              console.log(nonCommPercentage);
+
+                  // Assign CSS class based on Non-Comm %
+                  const rowClass =
+                    nonCommPercentage >= 100
+                      ? "non-comm-full"
+                      : nonCommPercentage >= 75
+                      ? "non-comm-high"
+                      : nonCommPercentage >= 50
+                      ? "non-comm-medium"
+                      : "non-comm-low";
+
+                  return (
+                    <tr key={index} className={rowClass}>
+                      <td>{row.property ?? "N/A"}</td>
+                      <td>{row.utility ?? "N/A"}</td>
+                      <td>{row.amr ?? "N/A"}</td>
+                      <td>{row.bill_cycle ?? "N/A"}</td>
+                      <td>{row.building_meter_count ?? "N/A"}</td>
+                      <td>{row.current ?? "N/A"}</td>
+                      <td>{`${nonCommPercentage}%`}</td>
+                      <td>{row.max_last_read}</td>
+                      <td>{row.days_4_to_10 ?? "N/A"}</td>
+                      <td>{row.days_10_to_30 ?? "N/A"}</td>
+                      <td>{row.days_30_to_60 ?? "N/A"}</td>
+                      <td>{row.days_60_to_90 ?? "N/A"}</td>
+                      <td>{row.days_90_plus ?? "N/A"}</td>
+                    </tr>
+                  );
+                })}
         </tbody>
       </table>
 

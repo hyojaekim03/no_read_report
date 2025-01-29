@@ -33,6 +33,17 @@ table {
   tbody tr:nth-child(even) {
     background-color: #f1f1f1; /* Light gray for alternating rows */
   }
+
+tbody tr.non-comm-low:nth-child(even) { background-color: #f1f1f1 !important; } /* Keep zebra striping */
+tbody tr.non-comm-medium { background-color: rgba(255, 0, 0, 0.141) !important; } /* 50-74% */
+tbody tr.non-comm-high { background-color: rgba(255, 0, 0, 0.4) !important; } /* 75-99% */
+tbody tr.non-comm-full { background-color: rgba(190, 0, 11, 0.762) !important; color: white; } 
+
+/* Ensure text readability inside red-highlighted rows */
+tbody tr.non-comm-full td { 
+  background-color: rgba(255, 0, 0, 0.9) !important; 
+  color: white !important; 
+}
   
   /* Hover effect for rows */
   tbody tr:hover {
@@ -50,4 +61,7 @@ table {
   .table-container {
     padding: 20px;
   }
+
+  /* Non-Comm % row highlighting */
+
   
