@@ -40,7 +40,7 @@ const ReadReport: React.FC = () => {
           billCycle: billCycleFilter !== "All" ? billCycleFilter : undefined,
           buildingMeterCount: meterCountFilter !== "All" ? meterCountFilter : undefined,
           amr: amrFilter !== "All" ? amrFilter : undefined,
-          currentCout: currCountFilter !== "All" ? currCountFilter : undefined,
+          currentCount: currCountFilter !== "All" ? currCountFilter : undefined,
           days4to10: fourToTenFilter !== "All" ? fourToTenFilter : undefined,
           days10to30: tenToThirtyFilter !== "All" ? tenToThirtyFilter : undefined,
           days30to60: thirtyToSixtyFilter !== "All" ? thirtyToSixtyFilter : undefined,
@@ -50,6 +50,7 @@ const ReadReport: React.FC = () => {
 
         const response = await fetchFilteredRefreshReport(currentPage, itemsPerPage, filters);
         console.log("Fetched Data:", response);
+        console.log()
 
         setData(response.data);
         setTotalPages(Math.ceil(response.totalCount[0][0].totalCount / itemsPerPage));
@@ -77,6 +78,7 @@ const ReadReport: React.FC = () => {
           <th>90+ Days Non-Comm</th>
         </thead>
         <tbody>
+
         </tbody>
       </table>
       <table>
@@ -262,9 +264,6 @@ const ReadReport: React.FC = () => {
         {data.map((row, index) => {
           // Calculate Non-Comm %
             const nonCommPercentage = Math.round(((row.days_30_to_60 + row.days_60_to_90 + row.days_90_plus) * 100) / row.building_meter_count)
-
-
-              console.log(nonCommPercentage);
 
                   // Assign CSS class based on Non-Comm %
                   const rowClass =

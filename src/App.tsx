@@ -3,7 +3,15 @@ import ReadReport from "./components/ReadReport"; // Import the DataTable compon
 import "./styles/App.css"; // Import styles
 
 const App: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<string>("Total View");
+  const [activeTab, setActiveTab] = useState(()=>{
+    const savedState = localStorage.getItem('activeTab');
+    return savedState ? JSON.parse(savedState) : 'Total View'
+  });
+
+  const setTab = (tab:string):void => {
+    setActiveTab(tab);
+    localStorage.setItem('activeTab', JSON.stringify(tab))
+  }
 
   const renderContent = () => {
     switch (activeTab) {
@@ -30,7 +38,7 @@ const App: React.FC = () => {
           <button
             key={tab}
             className={`tab-button ${activeTab === tab ? "active" : ""}`}
-            onClick={() => setActiveTab(tab)}
+            onClick={() => setTab(tab)}
           >
             {tab}
           </button>

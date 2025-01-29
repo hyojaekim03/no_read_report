@@ -4,7 +4,7 @@ export interface FilterParams {
     billCycle?: string;
     buildingMeterCount?: string;
     amr?: string;
-    currentCout?: string;
+    currentCount?: string;
     days4to10?: string;
     days10to30?: string;
     days30to60?: string;
