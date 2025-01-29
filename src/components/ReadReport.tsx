@@ -5,7 +5,7 @@ import { round } from "../utils/math";
 import "../styles/table.css";
 import "../styles/pagination.css";
 
-const DataTable: React.FC = () => {
+const ReadReport: React.FC = () => {
   const [data, setData] = useState<any[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [currentPage, setCurrentPage] = useState<number>(1);
@@ -311,4 +311,4 @@ const DataTable: React.FC = () => {
   );
 };
 
-export default DataTable;
+export default ReadReport;
