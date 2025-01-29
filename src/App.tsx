@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import ReadReport from "./components/ReadReport"; // Import the DataTable component
+import TotalView from "./components/TotalView";
 import "./styles/App.css"; // Import styles
 
 const App: React.FC = () => {
@@ -8,7 +9,7 @@ const App: React.FC = () => {
   const renderContent = () => {
     switch (activeTab) {
       case "Total View":
-        return <div className="tab-content">Total View Content</div>;
+        return <TotalView />;
       case "Read Report":
         return <ReadReport />; 
       case "Exception Report":

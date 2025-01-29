@@ -24,6 +24,17 @@ export const fetchFilteredRefreshReport = async (
   }
 };
 
+export const fetchNonCommReport = async () => {
+  try {
+    const response = await axios.get(`${API_BASE_URL}/nonCommReport`);
+    console.log(response.data);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching non_commReport:", error);
+    throw error;
+  }
+}
+
 // Function to fetch admin report with pagination
 // export const fetchAdmReport = async (page: number, limit: number) => {
 //   try {
