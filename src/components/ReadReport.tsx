@@ -48,10 +48,6 @@ const ReadReport: React.FC = () => {
           days90Plus: nintyPlusFilter !== "All" ? nintyPlusFilter : undefined
         };
 
-        console.log('premise')
-        console.log('amr: ', filters.amr)
-        console.log('days4ot')
-
         const response = await fetchFilteredRefreshReport(currentPage, itemsPerPage, filters);
         console.log("Fetched Data:", response);
 
@@ -71,6 +67,18 @@ const ReadReport: React.FC = () => {
 
   return (
     <div className="table-container">
+      <table>
+        <thead>
+          <th>Building Count</th>
+          <th>Non-Comm Count (30+)</th>
+          <th>Non-Comm %</th>
+          <th>30-60 Days Non-Comm</th>
+          <th>60-90 Days Non-Comm</th>
+          <th>90+ Days Non-Comm</th>
+        </thead>
+        <tbody>
+        </tbody>
+      </table>
       <table>
         <thead>
           <tr>
@@ -276,7 +284,8 @@ const ReadReport: React.FC = () => {
                       <td>{row.bill_cycle ?? "N/A"}</td>
                       <td>{row.building_meter_count ?? "N/A"}</td>
                       <td>{row.current ?? "N/A"}</td>
-                      <td>{`${nonCommPercentage}%`}</td>
+                      {/* <td>{`${nonCommPercentage}%`}</td> */}
+                      <td>{`${row.non_comm_percentage}`}</td>
                       <td>{row.max_last_read}</td>
                       <td>{row.days_4_to_10 ?? "N/A"}</td>
                       <td>{row.days_10_to_30 ?? "N/A"}</td>

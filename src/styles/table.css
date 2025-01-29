@@ -11,8 +11,11 @@ table {
   
   /* Table header styling */
   thead {
+    position: sticky;
+    top: 0;
     background-color: #0A223D; /* Dark blue */
     color: #fff; /* White text */
+    z-index: 1; 
   }
   
   th {
@@ -59,9 +62,12 @@ tbody tr.non-comm-full td {
   
   /* Add some spacing to the container around the table */
   .table-container {
-    padding: 20px;
+    width: 100%;
+    overflow-x: auto;
+    position: relative;
+    max-height: 600px; /* Adjust based on your needs */
+    overflow-y: auto;
   }
-
   /* Non-Comm % row highlighting */
 
   

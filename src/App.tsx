@@ -13,8 +13,6 @@ const App: React.FC = () => {
         return <ReadReport />; 
       case "Exception Report":
         return <div className="tab-content">Exception Report Content</div>;
-      case "Export":
-        return <div className="tab-content">Export Options</div>;
       case "Alerts":
         return <div className="tab-content">Alerts Content</div>;
       default:
@@ -28,7 +26,7 @@ const App: React.FC = () => {
       
       {/* tab navigation */}
       <div className="tabs">
-        {["Total View", "Read Report", "Exception Report", "Export", "Alerts"].map((tab) => (
+        {["Total View", "Read Report", "Exception Report", "Alerts"].map((tab) => (
           <button
             key={tab}
             className={`tab-button ${activeTab === tab ? "active" : ""}`}
