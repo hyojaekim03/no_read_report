@@ -24,10 +24,14 @@ export const fetchFilteredRefreshReport = async (
   }
 };
 
-export const fetchNonCommReport = async () => {
+export const fetchNonCommCount = async (groupBy?: string) => {
   try {
-    const response = await axios.get(`${API_BASE_URL}/nonCommReport`);
-    console.log(response.data);
+    const response = await axios.get(`${API_BASE_URL}/nonCommCount`, {
+      params: {
+        groupBy
+      }
+    });
+    // console.log(response.data);
     return response.data;
   } catch (error) {
     console.error("Error fetching non_commReport:", error);
