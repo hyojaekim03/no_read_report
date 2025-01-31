@@ -31,7 +31,7 @@ export const fetchNonCommCount = async (groupBy?: string) => {
         groupBy
       }
     });
-    // console.log(response.data);
+    console.log(response.data);
     return response.data;
   } catch (error) {
     console.error("Error fetching non_commReport:", error);

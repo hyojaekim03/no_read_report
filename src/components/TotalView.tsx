@@ -6,6 +6,12 @@ import GaugeComponent from "./GaugeComponent";
 interface gaugeType{
     amr?: string;
     property?: string;
+    utility?: string;
+    sum_days_4_to_10: number;
+    sum_days_10_to_30: number;
+    sum_days_30_to_60: number;
+    sum_days_60_to_90: number;
+    sum_days_90_plus: number;
     total_non: number;
     total_count: number;
 }
@@ -15,11 +21,21 @@ const TotalView: React.FC = () => {
     const [groupBy, setGroupBy] = useState<string>();
     const [totalGauge, setTotalGauge] = useState<gaugeType[]>([{
         total_non: 0,
-        total_count: 0
+        total_count: 0,
+        sum_days_4_to_10: 0,
+        sum_days_10_to_30: 0,
+        sum_days_30_to_60: 0,
+        sum_days_60_to_90: 0,
+        sum_days_90_plus: 0
     }]);
     const [gauge, setGauge] = useState<gaugeType[]>([{
         total_non: 0,
-        total_count: 0
+        total_count: 0,
+        sum_days_4_to_10: 0,
+        sum_days_10_to_30: 0,
+        sum_days_30_to_60: 0,
+        sum_days_60_to_90: 0,
+        sum_days_90_plus: 0
     }]);
     const [error, setError] = useState<string>("");
     const [stackedColumnData, setStackedColumnData] = useState<nonCommDataType[]>([]);
@@ -36,7 +52,7 @@ const TotalView: React.FC = () => {
 
             try {
                 const response: gaugeType[] = await fetchNonCommCount();
-                console.log(response);
+                console.log(response, 'this is response');
                 setTotalGauge(response);
             } catch (error) {
                 setError((prevError) => prevError + ' tota: ' + error);
@@ -69,7 +85,17 @@ const TotalView: React.FC = () => {
     if (loading) return <div>loading...</div>;
     return (
         <div style={{display: 'flex', justifyContent: 'center'}}>
-            <GaugeComponent value={totalGauge[0].total_non} total_count={totalGauge[0].total_count} delta={1} />
+            <GaugeComponent
+                values={[
+                    totalGauge[0].sum_days_4_to_10,
+                    totalGauge[0].sum_days_10_to_30,
+                    totalGauge[0].sum_days_30_to_60,
+                    totalGauge[0].sum_days_60_to_90,
+                    totalGauge[0].sum_days_90_plus
+                ]}
+                total_non={totalGauge[0].total_non}
+                total_count={totalGauge[0].total_count}
+                previous_value={0} />
             <label htmlFor="dropdown">Group By: </label>
             <select
                 id="dropdown"
