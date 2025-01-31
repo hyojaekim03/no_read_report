@@ -4,13 +4,13 @@ import "./styles/App.css"; // Import styles
 
 const App: React.FC = () => {
   const [activeTab, setActiveTab] = useState(()=>{
-    const savedState = localStorage.getItem('activeTab');
+    const savedState = sessionStorage.getItem('activeTab');
     return savedState ? JSON.parse(savedState) : 'Total View'
   });
 
   const setTab = (tab:string):void => {
     setActiveTab(tab);
-    localStorage.setItem('activeTab', JSON.stringify(tab))
+    sessionStorage.setItem('activeTab', JSON.stringify(tab))
   }
 
   const renderContent = () => {

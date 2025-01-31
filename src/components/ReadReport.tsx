@@ -10,7 +10,7 @@ const ReadReport: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [totalPages, setTotalPages] = useState<number>(0);
-  const itemsPerPage = 200;
+  const itemsPerPage = 250;
 
   // filter states
   const [premiseFilter, setPremiseFilter] = useState<string>("All");
@@ -20,6 +20,7 @@ const ReadReport: React.FC = () => {
   const [meterCountFilter, setMeterCountFilter] = useState("All");
   const [amrFilter, setAmrFilter] = useState<string>("All");
   const [currCountFilter, setCurrCountFilter] = useState("All");
+  const [nonCommFilter, setNonCommFilter] = useState("All");
   const [fourToTenFilter, setFourToTenFilter] = useState("All");
   const [tenToThirtyFilter, setTenToThirtyFilter] = useState("All");
   const [thirtyToSixtyFilter, setThirtyToSixtyFilter] = useState("All");
@@ -41,6 +42,7 @@ const ReadReport: React.FC = () => {
           buildingMeterCount: meterCountFilter !== "All" ? meterCountFilter : undefined,
           amr: amrFilter !== "All" ? amrFilter : undefined,
           currentCount: currCountFilter !== "All" ? currCountFilter : undefined,
+          nonCommCount: nonCommFilter !== "All" ? nonCommFilter : undefined,
           days4to10: fourToTenFilter !== "All" ? fourToTenFilter : undefined,
           days10to30: tenToThirtyFilter !== "All" ? tenToThirtyFilter : undefined,
           days30to60: thirtyToSixtyFilter !== "All" ? thirtyToSixtyFilter : undefined,
@@ -50,10 +52,10 @@ const ReadReport: React.FC = () => {
 
         const response = await fetchFilteredRefreshReport(currentPage, itemsPerPage, filters);
         console.log("Fetched Data:", response);
-        console.log()
 
         setData(response.data);
-        setTotalPages(Math.ceil(response.totalCount[0][0].totalCount / itemsPerPage));
+        console.log('totalCount: ', response.totalCount)
+        setTotalPages(Math.ceil(response.totalCount/ itemsPerPage));
       } catch (error) {
         console.error("Error fetching data:", error);
       } finally {
@@ -62,25 +64,12 @@ const ReadReport: React.FC = () => {
     };
 
     fetchData();
-  }, [currentPage, premiseFilter, utilityTypeFilter, billCycleFilter, meterCountFilter, amrFilter, currCountFilter, fourToTenFilter, tenToThirtyFilter, thirtyToSixtyFilter, sixtyToNintyFilter, nintyPlusFilter]);
+  }, [currentPage, premiseFilter, utilityTypeFilter, billCycleFilter, meterCountFilter, amrFilter, currCountFilter, nonCommFilter, fourToTenFilter, tenToThirtyFilter, thirtyToSixtyFilter, sixtyToNintyFilter, nintyPlusFilter]);
 
   if (loading) return <p>Loading...</p>;
 
   return (
     <div className="table-container">
-      <table>
-        <thead>
-          <th>Building Count</th>
-          <th>Non-Comm Count (30+)</th>
-          <th>Non-Comm %</th>
-          <th>30-60 Days Non-Comm</th>
-          <th>60-90 Days Non-Comm</th>
-          <th>90+ Days Non-Comm</th>
-        </thead>
-        <tbody>
-
-        </tbody>
-      </table>
       <table>
         <thead>
           <tr>
@@ -169,11 +158,11 @@ const ReadReport: React.FC = () => {
               </select>
             </th>
 
-            {/*4-10 days Filter*/}
+            {/*Non-Comm %*/}
             <th>
               Non-Comm %
               <br />
-              <select value={fourToTenFilter} onChange={(e) => setFourToTenFilter(e.target.value)}>
+              <select value={nonCommFilter} onChange={(e) => setNonCommFilter(e.target.value)}>
                 <option value="All">All</option>
                 {Array.from(new Set(percentFilterArray.map((row) => row))).map((option) => (
                   <option key={option} value={option}>
@@ -183,10 +172,6 @@ const ReadReport: React.FC = () => {
               </select>
             </th>
 
-            {/*MaxLastRead Filter*/}
-            <th>
-              MaxLastRead
-            </th>
             
               {/*4-10 days Filter*/}
               <th>
@@ -284,8 +269,7 @@ const ReadReport: React.FC = () => {
                       <td>{row.building_meter_count ?? "N/A"}</td>
                       <td>{row.current ?? "N/A"}</td>
                       {/* <td>{`${nonCommPercentage}%`}</td> */}
-                      <td>{`${row.non_comm_percentage}`}</td>
-                      <td>{row.max_last_read}</td>
+                      <td>{`${nonCommPercentage}%`}</td>
                       <td>{row.days_4_to_10 ?? "N/A"}</td>
                       <td>{row.days_10_to_30 ?? "N/A"}</td>
                       <td>{row.days_30_to_60 ?? "N/A"}</td>

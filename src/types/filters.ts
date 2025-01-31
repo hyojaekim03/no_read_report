@@ -5,6 +5,7 @@ export interface FilterParams {
     buildingMeterCount?: string;
     amr?: string;
     currentCount?: string;
+    nonCommCount?: string;
     days4to10?: string;
     days10to30?: string;
     days30to60?: string;
